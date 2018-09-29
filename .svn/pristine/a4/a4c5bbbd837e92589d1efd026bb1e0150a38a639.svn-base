@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 包名：实体类所在的包 -->
+<hibernate-mapping package="com.wangqingbo.entity">
+    <!--
+    calss：实体对象和数据库表做对应
+    name：实体类的类名
+    table：对应的数据库的表名
+      -->
+    <class name="EngineerInfo" table="ENGINEER">
+        <!-- id 表的主键 
+            name：实体类中的一个属性
+            column：数据库中表的主键的列名
+        -->
+        <id name="id" column="ID">
+            <!-- 主键的生成方式 
+             <generator class="sequence">
+             <param name="sequence_name">ps</param>
+            </generator>
+            -->
+            <generator class="uuid"/>
+        </id>
+        <!-- 以下是普通属性的配置 -->
+        
+        <!-- property 实体类中的普通属性
+             name：实体类中的属性
+             column：数据库中表的字段名
+             type：字段的类型
+         -->
+        <property name="name" type="string" column="NAME"/>
+        <property name="age" type="int" column="AGE"/>
+        <property name="company" type="string" column="COMPANY"/>
+        
+       <!-- 配置多对多关联 
+            name：类中定义的属性名
+			table：多对多关联的中间表
+			<key column="ENGINEERID"></key> column：对应关系中本表主键和第三张表关联的字段名
+			<many-to-many column="TECHNOLOGYID" class="Technology"></many-to-many>
+			column：和对方产生关联的数据库字段名，第三方表中的字段，对应对方的主键值
+			class：和对方关联的实体类名
+       -->
+       <set name="technologyInfos" table="ENGINEERTECHNOLOGY" cascade="all">
+         <key column="ENGINEERID"></key>
+         <many-to-many column="TECHNOLOGYID" class="TechnologyInfo"></many-to-many>
+       </set>
+    </class>
+
+</hibernate-mapping>

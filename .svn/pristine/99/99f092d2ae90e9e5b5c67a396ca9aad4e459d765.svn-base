@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 包名：实体类所在的包 -->
+<hibernate-mapping package="com.wangqingbo.entity">
+    <!--
+    calss：实体对象和数据库表做对应
+    name：实体类的类名
+    table：对应的数据库的表名
+      -->
+    <class name="Torder" table="TORDER" lazy="false">
+        <!-- id 表的主键 
+            name：实体类中的一个属性
+            column：数据库中表的主键的列名
+        -->
+        <id name="id" column="ID">
+            <!-- 主键的生成方式 
+             <generator class="sequence">
+             <param name="sequence_name">ps</param>
+            </generator>
+            -->
+            <generator class="uuid"/>
+        </id>
+        <!-- 以下是普通属性的配置 -->
+        
+        <!-- property 实体类中的普通属性
+             name：实体类中的属性
+             column：数据库中表的字段名
+             type：字段的类型
+         -->
+        <property name="total" type="double" column="TOTAL"/>
+        <property name="orderTime" type="timestamp" column="ORDERED_DATE"/>
+        <property name="shopperTime" type="timestamp" column="SHIPPED_DATE"/>
+        
+        <!-- 配置一对多的关系
+            name：在实体类中定义的多的一方的变量名
+			cascade：级联关系，包含none，save-update,delete,all
+			inverse:默认为false，是主控方，true：不是主控方
+			lazy:懒加载，默认为true，关联对象在使用的时候才去查，不使用时不会查询。
+			               如果改为false，不管用不用，关联对象都会查出来
+			<key column="ORDERID"/>：在set标签里面，
+			column是负责两张表关联的数据库字段，不需要在实体类中定义，在对方的表中
+			<one-to-many class="TorderLine"/>：和对方的对应关系，class对方的类名
+         -->
+        <set name="torderLines" inverse="false" cascade="all" lazy="true">
+         <key column="ORDERID"></key>
+         <one-to-many class="TorderLine"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

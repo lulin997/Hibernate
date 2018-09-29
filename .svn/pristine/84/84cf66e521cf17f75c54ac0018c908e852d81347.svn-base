@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 包名：实体类所在的包 -->
+<hibernate-mapping package="com.wangqingbo.entity">
+    <!--
+    calss：实体对象和数据库表做对应
+    name：实体类的类名
+    table：对应的数据库的表名
+      -->
+    <class name="PersonInfo" table="PERSON">
+        <!-- id 表的主键 
+            name：实体类中的一个属性
+            column：数据库中表的主键的列名
+        -->
+        <id name="personId" column="PERSONID">
+            <!-- 主键的生成方式 
+             <generator class="sequence">
+             <param name="sequence_name">ps</param>
+            </generator>
+            -->
+            <generator class="uuid"/>
+        </id>
+        <!-- 以下是普通属性的配置 -->
+        
+        <!-- property 实体类中的普通属性
+             name：实体类中的属性
+             column：数据库中表的字段名
+             type：字段的类型
+         -->
+        <property name="personName" type="string" column="PERSONNAME"/>
+        <property name="age" type="int" column="AGE"/>
+        
+        <!-- 配置和passport的一对一关联 
+          name:在本实体类中创建的对方的属性名，对方的名称，区分大小写
+          class：对方的类名
+          unique:唯一，使用多对一的方式强制执行一对一
+          cascade:级联， 值none：不做操作   save-update:保存或更新   delete:删除  
+          all：包含save-update和 delete
+          column:关联字段，是本实体类对应数据库表中的一个字段，和对方表做关联
+        -->
+        <many-to-one name="passportInfo" class="PassportInfo" unique="true" cascade="all" column="PASSPORT_ID"></many-to-one>
+        
+        <!--  
+        <one-to-one name="passportInfo" class="PassportInfo" foreign-key="PASSPORTID" cascade="all"></one-to-one>
+        -->
+    </class>
+
+</hibernate-mapping>

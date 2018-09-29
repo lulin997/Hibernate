@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- 数据库的连接 -->
+        <!-- 数据库驱动 -->
+        <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <!-- 数据库的地址 -->
+        <property name="connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+        <!-- 数据库的用户名 -->
+        <property name="connection.username">hz</property>
+        <!-- 数据库的密码  -->
+        <property name="connection.password">123456</property>
+        <!-- SQL 方言,hibernate框架适应不同数据库中sql语句的差别 ,这里使用oracle11g-->
+        <property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <!-- 执行操作以后，true:打印sql语句     false:不打印sql语句 -->
+        <property name="show_sql">true</property>
+        <!-- 开启二级缓存 -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<!-- 使用Ehcache提供的缓存 -->
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.internal.EhcacheRegionFactory</property>
+
+        <!-- 根据配置文件，对数据库操作 
+        create：重新建表
+        create-drop：删除表，再建表
+        update：更新表
+        none：不对表操作
+        -->
+        <property name="hbm2ddl.auto">none</property>
+        <!-- 数据库表和对象的关联映射，路径以“/”分割，不能使用“.” -->
+        <mapping resource="com/wangqingbo/entity/ProjectInfo.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/ProjectFeeInfo.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/PersonInfo.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/PassportInfo.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/Torder.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/TorderLine.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/EngineerInfo.hbm.xml"/>
+        <mapping resource="com/wangqingbo/entity/TechnologyInfo.hbm.xml"/>
+    <!-- 二级缓存策略 -->
+    <class-cache usage="read-write" class="com.wangqingbo.entity.ProjectInfo"/>
+    </session-factory>
+
+</hibernate-configuration>
